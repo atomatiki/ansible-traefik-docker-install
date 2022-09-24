@@ -6,7 +6,6 @@
 # Prepare required Files and Directories
 #
 - name: Preparing required files and Directories in /etc/traefik
-  become: true
   block:
 
     # Create Directory
@@ -36,11 +35,9 @@
         dest: /etc/traefik/traefik.yaml
 
 
-# Configuroing traefik docker 
+# Configuroing traefik docker  with "{{ ansible_user }}"
 #
 - name: Configuring traefik docker
-  become: true
-  become_user: "{{ ansible_user }}"
   block:
       
     # Create ssl-certs Volume
