@@ -3,4 +3,7 @@
   become: yes
   
   roles:
-    - docker-install
+    - traefik-install
+
+  vars:
+    traefik_docker_network_name: traefik_network
