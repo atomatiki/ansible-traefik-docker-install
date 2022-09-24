@@ -1,0 +1,12 @@
+---
+# handlers file for traefik
+
+
+- name: Start Docker chack
+  service: name=docker state=started
+  register: docker_started_output
+  ignore_errors: true
+
+- name: Debug Docker Daemon
+  ansible.builtin.debug:
+    var: docker_started_output
