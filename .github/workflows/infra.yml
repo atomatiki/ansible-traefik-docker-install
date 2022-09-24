@@ -1,4 +1,4 @@
-name: Configure Docker
+name: Configure traefik
 
 on:
   workflow_call:
