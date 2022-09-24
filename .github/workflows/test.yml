@@ -1,0 +1,48 @@
+name: test Configure Docker
+
+on:
+  workflow_dispatch:
+
+jobs:
+   ansible:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Add SSH Keys
+        run: |
+          cat << EOF > devops-key
+          ${{ secrets.SSH_DEVOPS_KEY_PRIVATE }}
+          EOF
+
+      - name: Add pub SSH Keys
+        run: |
+          sudo mkdir -p /root/.ssh
+          sudo cat << EOF > /root/.ssh/authorized_keys
+          ${{ secrets.SSH_DEVOPS_KEY_PUBLIC }}
+          EOF
+
+      - name: Update devops private key permissions
+        run: |
+          chmod 400 devops-key
+      - name: Install Ansible
+        run: |
+          pip install ansible
+      
+      - name: Adding or Override Ansible Config File
+        run: |
+          cat << EOF > ./ansible.cfg
+          [defaults]
+          ansible_python_interpreter='/usr/bin/python3'
+          deprecation_warnings=False
+          inventory=./inventory.ini
+          remote_user="root"
+          host_key_checking=False
+          private_key_file = ./devops-key
+          retries=2
+          EOF
+      
+      - name: Run main playbook
+        run: |
+          ANSIBLE_CONFIG=ansible.cfg ansible-playbook main.yml
