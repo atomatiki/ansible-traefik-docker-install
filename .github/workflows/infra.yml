@@ -2,6 +2,13 @@ name: Configure traefik
 
 on:
   workflow_call:
+    inputs:
+      SSH_DEVOPS_KEY_PRIVATE:
+        required: true
+        type: string
+      HOST_IP:
+        type: string
+        required: true
   workflow_dispatch:
 
 jobs:
