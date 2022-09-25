@@ -5,6 +5,8 @@ on:
     secrets:
       SSH_DEVOPS_KEY_PRIVATE:
         required: true
+      HOST_IP:
+        required: true
   workflow_dispatch:
 
 jobs:
@@ -25,6 +27,13 @@ jobs:
       - name: Install Ansible
         run: |
           pip install ansible
+      
+      - name: Adding or Override Ansible inventory File
+        run: |
+          cat << EOF > ./inventory.cfg
+          [webapps]
+          {{ env.HOST_IP }}
+          EOF
       
       - name: Adding or Override Ansible Config File
         run: |
