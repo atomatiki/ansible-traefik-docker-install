@@ -2,11 +2,6 @@ name: Configure traefik
 
 on:
   workflow_call:
-    secrets:
-      SSH_DEVOPS_KEY_PRIVATE:
-        required: true
-      HOST_IP:
-        required: true
   workflow_dispatch:
 
 jobs:
@@ -19,7 +14,7 @@ jobs:
       - name: Add SSH Keys
         run: |
           cat << EOF > devops-key
-          ${{ secrets.SSH_DEVOPS_KEY_PRIVATE }}
+          ${{ inputs.SSH_DEVOPS_KEY_PRIVATE }}
           EOF
       - name: Update devops private key permissions
         run: |
@@ -32,7 +27,7 @@ jobs:
         run: |
           cat << EOF > ./inventory.cfg
           [webapps]
-          {{ env.HOST_IP }}
+          {{ inputs.HOST_IP }}
           EOF
       
       - name: Adding or Override Ansible Config File
