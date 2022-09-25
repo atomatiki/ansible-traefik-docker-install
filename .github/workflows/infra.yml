@@ -2,10 +2,10 @@ name: Configure traefik
 
 on:
   workflow_call:
-    inputs:
+    secrets:
       SSH_DEVOPS_KEY_PRIVATE:
         required: true
-        type: string
+    inputs:
       HOST_IP:
         type: string
         required: true
@@ -21,7 +21,7 @@ jobs:
       - name: Add SSH Keys
         run: |
           cat << EOF > devops-key
-          ${{ inputs.SSH_DEVOPS_KEY_PRIVATE }}
+          ${{ secrets.SSH_DEVOPS_KEY_PRIVATE }}
           EOF
       - name: Update devops private key permissions
         run: |
