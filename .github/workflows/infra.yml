@@ -5,9 +5,7 @@ on:
     secrets:
       SSH_DEVOPS_KEY_PRIVATE:
         required: true
-    inputs:
       HOST_IP:
-        type: string
         required: true
   workflow_dispatch:
 
@@ -34,7 +32,7 @@ jobs:
         run: |
           cat << EOF > ./inventory.cfg
           [webapps]
-          {{ inputs.HOST_IP }}
+          {{ secrets.HOST_IP }}
           EOF
       
       - name: Adding or Override Ansible Config File
