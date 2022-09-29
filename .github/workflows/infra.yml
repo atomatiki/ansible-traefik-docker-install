@@ -32,7 +32,7 @@ jobs:
         run: |
           cat << EOF > ./inventory.cfg
           [webapps]
-          {{ secrets.HOST_IP }}
+          ${{ secrets.HOST_IP }}
           EOF
       
       - name: Adding or Override Ansible Config File
