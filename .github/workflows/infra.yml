@@ -31,7 +31,7 @@ jobs:
       - name: Adding or Override Ansible inventory File
         run: |
           cat << EOF > ./inventory.ini
-          [webapps]
+          [webservers]
           ${{ secrets.HOST_IP }}
           EOF
       
