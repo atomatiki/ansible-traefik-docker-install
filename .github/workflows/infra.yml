@@ -1,14 +1,11 @@
-name: Configure traefik
+name: Configure Portainer
 
 on:
-  workflow_call:
-    secrets:
-      SSH_DEVOPS_KEY_PRIVATE:
-        required: true
-      HOST_IP:
-        required: true
   workflow_dispatch:
-
+    inputs:
+      TARGET_HOST:
+        type: string
+        required: true
 jobs:
    ansible:
     runs-on: ubuntu-latest
@@ -19,7 +16,7 @@ jobs:
       - name: Add SSH Keys
         run: |
           cat << EOF > devops-key
-          ${{ secrets.SSH_DEVOPS_KEY_PRIVATE }}
+          ${{ secrets.SSH_PRIVATE_KEY }}
           EOF
       - name: Update devops private key permissions
         run: |
@@ -27,12 +24,12 @@ jobs:
       - name: Install Ansible
         run: |
           pip install ansible
-      
+
       - name: Adding or Override Ansible inventory File
         run: |
           cat << EOF > ./inventory.ini
           [webservers]
-          ${{ secrets.HOST_IP }}
+          ${{ inputs.TARGET_HOST }}
           EOF
       
       - name: Adding or Override Ansible Config File
@@ -51,3 +48,4 @@ jobs:
       - name: Run main playbook
         run: |
           ANSIBLE_CONFIG=ansible.cfg ansible-playbook main.yml
+          
