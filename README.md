@@ -12,6 +12,6 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCug/Bna0CaHSWASX8VHKnguIhO4ucGZCv6Y2oD0gJw
 
 Dispatch this workflow while passing your host IP as an input.
 
-> got to Actions > Configure Portainer > run workflow
+> got to Actions > Configure Traefik > run workflow
 
 Pass your remote IP and watch it run.
