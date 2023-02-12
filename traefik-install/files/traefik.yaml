@@ -19,7 +19,7 @@ global:
 # ---
 api:
   dashboard: true  # true by default
-  insecure: true  # Don't do this in production!
+  insecure: false  # Don't do this in production!
 
 # Entry Points configuration
 # ---
@@ -47,6 +47,13 @@ certificatesResolvers:
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
+      dnsChallenge:
+        provider: digitalocean
+        delayBeforeCheck: 60
+        resolvers: 
+          - ns1.digitalocean.com:53
+          - ns2.digitalocean.com:53
+          - ns3.digitalocean.com:53
 
   production:
     acme:
@@ -55,6 +62,13 @@ certificatesResolvers:
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
+      dnsChallenge:
+        provider: digitalocean
+        delayBeforeCheck: 60
+        resolvers: 
+          - ns1.digitalocean.com:53
+          - ns2.digitalocean.com:53
+          - ns3.digitalocean.com:53
 
 
 # (Optional) Overwrite Default Certificates
