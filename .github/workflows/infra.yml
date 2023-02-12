@@ -50,7 +50,7 @@ jobs:
           mkdir -p traefik-install/vars/
           cat << EOF > traefik-install/vars/main.yaml
           ---
-          DO_AUTH_TOKEN: "${{ DO_AUTH_TOKEN }}"
+          DO_AUTH_TOKEN: "${{ secrets.DO_AUTH_TOKEN }}"
           EOF
       
       - name: Run main playbook
