@@ -44,6 +44,14 @@ jobs:
           private_key_file = ./devops-key
           retries=2
           EOF
+          
+      - name: Adding Ansible Variables
+        run: |
+          mkdir -p traefik-install/vars/
+          cat << EOF > traefik-install/vars/main.yaml
+          ---
+          DO_AUTH_TOKEN: "${{ DO_AUTH_TOKEN }}"
+          EOF
       
       - name: Run main playbook
         run: |
