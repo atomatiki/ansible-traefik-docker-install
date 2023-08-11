@@ -18,6 +18,10 @@ on:
         type: string
         required: false
         default: "no-password"
+      SSH_USER_HOME_DIR:
+        type: string
+        required: false
+        default: "/root/"
         
 jobs:
    ansible:
@@ -53,6 +57,7 @@ jobs:
           deprecation_warnings=False
           inventory=./inventory.ini
           remote_user="${{ inputs.SSH_USER }}"
+          remote_tmp="${{ inputs.SSH_USER_HOME_DIR }}/.ansible/tmp"
           host_key_checking=False
           private_key_file = ./devops-key
           retries=2
