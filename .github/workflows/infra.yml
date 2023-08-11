@@ -6,6 +6,19 @@ on:
       TARGET_HOST:
         type: string
         required: true
+      SSH_PORT:
+        type: string
+        required: false
+        default: 22
+      SSH_USER:
+        type: string
+        required: false
+        default: "root"
+      ANSIBLE_BECOME_PASS:
+        type: string
+        required: false
+        default: "no-password"
+        
 jobs:
    ansible:
     runs-on: ubuntu-latest
@@ -39,21 +52,17 @@ jobs:
           ansible_python_interpreter='/usr/bin/python3'
           deprecation_warnings=False
           inventory=./inventory.ini
-          remote_user="root"
+          remote_user="${{ inputs.SSH_USER }}"
           host_key_checking=False
           private_key_file = ./devops-key
           retries=2
-          EOF
-          
-      - name: Adding Ansible Variables
-        run: |
-          mkdir -p traefik-install/vars/
-          cat << EOF > traefik-install/vars/main.yaml
-          ---
-          DO_AUTH_TOKEN: "${{ secrets.DO_AUTH_TOKEN }}"
+          remote_port = ${{ inputs.SSH_PORT }}
           EOF
       
       - name: Run main playbook
         run: |
-          ANSIBLE_CONFIG=ansible.cfg ansible-playbook main.yml
-          
+          if [ "${{ inputs.ANSIBLE_BECOME_PASS }}" != "no-password" ]; then
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass main.yml
+          else
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook main.yml
+          fi
