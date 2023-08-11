@@ -22,6 +22,9 @@ on:
         type: string
         required: false
         default: "/root"
+      EMAIL:
+        type: string
+        required: true
         
 jobs:
    ansible:
@@ -62,6 +65,15 @@ jobs:
           private_key_file = ./devops-key
           retries=2
           remote_port = ${{ inputs.SSH_PORT }}
+          EOF
+
+      - name: Adding Ansible Variables
+        run: |
+          mkdir -p traefik-install/vars/
+          cat << EOF > traefik-install/vars/main.yaml
+          ---
+          DO_AUTH_TOKEN: "${{ secrets.DO_AUTH_TOKEN }}"
+          EMAIL: "${{ inputs.EMAIL }}"
           EOF
       
       - name: Run main playbook

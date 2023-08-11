@@ -30,8 +30,8 @@
     # ---
     #
     - name: Copy config file
-      ansible.builtin.copy:
-        src: files/traefik.yaml
+      ansible.builtin.template:
+        src: templates/traefik.yaml.jinja2
         dest: /etc/traefik/traefik.yaml
 
 
@@ -91,7 +91,7 @@
             - name: "{{ traefik_docker_network_name }}" # required. Name of the network to operate on.
           restart_policy: always
           env:
-            DO_AUTH_TOKEN: "{{ DO_AUTH_TOKEN }}"
+            DO_AUTH_TOKEN: "{{ DO_AUTH_TOKEN | default('NONE') }}"
           labels:
             com.centurylinklabs.watchtower.enable: "false"
         register: d_output
