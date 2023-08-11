@@ -21,7 +21,7 @@ on:
       SSH_USER_HOME_DIR:
         type: string
         required: false
-        default: "/root/"
+        default: "/root"
         
 jobs:
    ansible:
