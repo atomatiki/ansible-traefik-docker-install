@@ -78,7 +78,7 @@
       - name: Deploy Traefik
         community.docker.docker_container:
           name: traefik
-          image: "traefik:v2.5"
+          image: "traefik:v2.10"
           ports:
             - "80:80"
             - "443:443"
