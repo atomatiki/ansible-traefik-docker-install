@@ -1,4 +1,4 @@
-name: install traefik 
+name: install traefik with DO dns
 
 on:
   workflow_dispatch:
