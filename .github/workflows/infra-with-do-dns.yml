@@ -25,6 +25,10 @@ on:
       EMAIL:
         type: string
         required: true
+
+env:
+  ansible-play: traefik-install-with-do-dns
+  ansible-main-file: main.with-do-dns.yml
         
 jobs:
    ansible:
@@ -69,8 +73,8 @@ jobs:
 
       - name: Adding Ansible Variables
         run: |
-          mkdir -p traefik-install/vars/
-          cat << EOF > traefik-install/vars/main.yaml
+          mkdir -p ${{ env.ansible-play }}/vars/
+          cat << EOF > ${{ env.ansible-play }}/vars/main.yaml
           ---
           DO_AUTH_TOKEN: "${{ secrets.DO_AUTH_TOKEN }}"
           EMAIL: "${{ inputs.EMAIL }}"
@@ -79,7 +83,7 @@ jobs:
       - name: Run main playbook
         run: |
           if [ "${{ inputs.ANSIBLE_BECOME_PASS }}" != "no-password" ]; then
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass main.yml
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass ${{ env.ansible-main-file }}
           else
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook main.yml
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook ${{ env.ansible-main-file }}
           fi

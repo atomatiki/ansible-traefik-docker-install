@@ -26,6 +26,11 @@ on:
         type: string
         required: true
         
+env:
+  ansible-play: traefik-install
+  ansible-main-file: main.yml
+
+
 jobs:
    ansible:
     runs-on: ubuntu-latest
@@ -69,8 +74,8 @@ jobs:
 
       - name: Adding Ansible Variables
         run: |
-          mkdir -p traefik-install/vars/
-          cat << EOF > traefik-install/vars/main.yaml
+          mkdir -p ${{ env.ansible-play }}/vars/
+          cat << EOF > ${{ env.ansible-play }}/vars/main.yaml
           ---
           EMAIL: "${{ inputs.EMAIL }}"
           EOF
@@ -78,7 +83,7 @@ jobs:
       - name: Run main playbook
         run: |
           if [ "${{ inputs.ANSIBLE_BECOME_PASS }}" != "no-password" ]; then
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass main.yml
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook --ask-become-pass ${{ env.ansible-main-file }}
           else
-            ANSIBLE_CONFIG=ansible.cfg ansible-playbook main.yml
+            ANSIBLE_CONFIG=ansible.cfg ansible-playbook ${{ env.ansible-main-file }}
           fi
