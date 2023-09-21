@@ -48,13 +48,6 @@ certificatesResolvers:
       tlsChallenge: {}
       httpChallenge:
         entryPoint: web
-      dnsChallenge:
-        provider: digitalocean
-        delayBeforeCheck: 60
-        resolvers: 
-          - ns1.digitalocean.com:53
-          - ns2.digitalocean.com:53
-          - ns3.digitalocean.com:53
 
   production:
     acme:
@@ -64,13 +57,6 @@ certificatesResolvers:
       tlsChallenge: {}
       httpChallenge:
         entryPoint: web
-      dnsChallenge:
-        provider: digitalocean
-        delayBeforeCheck: 60
-        resolvers: 
-          - ns1.digitalocean.com:53
-          - ns2.digitalocean.com:53
-          - ns3.digitalocean.com:53
 
 
 serversTransport:
