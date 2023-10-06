@@ -77,16 +77,14 @@ serversTransport:
   insecureSkipVerify: true
   
 # (Optional) Overwrite Default Certificates
-# tls:
-#   stores:
-#     default:
-#       defaultCertificate:
-#         certFile: /etc/traefik/certs/cert.pem
-#         keyFile: /etc/traefik/certs/cert-key.pem
+tls:
 # (Optional) Disable TLS version 1.0 and 1.1
-#   options:
-#     default:
-#       minVersion: VersionTLS12
+  options:
+    default:
+      minVersion: VersionTLS12
+    
+    mintls13:
+      minVersion: VersionTLS13
 
 providers:
   docker:
